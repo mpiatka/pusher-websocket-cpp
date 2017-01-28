@@ -137,12 +137,7 @@ void pushcpp::WS_Dispatch(const string & message)
 		auto it = m_channelData.find(channel);
 
 		if (it != m_channelData.end())
-			for (
-				auto it2 = it->second.eventHandlers.begin();
-				it2 != it->second.eventHandlers.end();
-				it2++
-			)
-				(*it2)(channel, event, data);
+			it->second.eventHandler(channel, event, data, it->second.eventHandlerPtr);
 	}
 
 	json_decref(json);

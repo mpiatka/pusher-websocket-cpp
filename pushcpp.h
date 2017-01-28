@@ -26,7 +26,8 @@ public:
 	typedef void (*ChannelEventHandler)(
 		const std::string &channel,
 		const std::string &event,
-		const std::string &eventData);
+		const std::string &eventData,
+		void *ptr);
 
 	typedef void (*ChannelPresenceHandler)(
 		const std::string &channel
@@ -59,7 +60,8 @@ public:
 	struct ChannelData {
 		bool subscribed = false;
 		ChannelAuthHandler authHandler;
-		std::set<ChannelEventHandler> eventHandlers;
+		ChannelEventHandler eventHandler;
+		void *eventHandlerPtr;
 		std::set<std::string> presenceMemberIds;
 
 		void clear()
@@ -124,6 +126,10 @@ public:
 		 * internal ones, in case you want to act on them.
 		 */
 		ChannelEventHandler event,
+		/**
+		 * This pointer is passed to the ChannelEventHandler
+		 */
+		void *ptr,
 		/**
 		 * This is called for authentication requests as described
 		 * above. presence- and private- channels require this.

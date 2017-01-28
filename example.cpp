@@ -11,7 +11,6 @@ pushcpp pp("my-api-key", cn_ev, er_ev);
 void cn_ev(const pushcpp::ConnectionEvent ev)
 {
 	printf("ConnectEvent: %d\n", ev);
-	pp.send("channel", "pusher:subscribe", "lol");
 }
 
 void er_ev(const int code, const std::string &msg)
@@ -22,7 +21,8 @@ void er_ev(const int code, const std::string &msg)
 void sub_ev(
 	const string &channel,
 	const string &event,
-	const string &data
+	const string &data,
+	void *ptr
 )
 {
 	// cout << pp.subscriptions().size() << endl;
@@ -67,7 +67,7 @@ void sub_ev(
 
 int main()
 {
-	pp.subscribe("my_channel", sub_ev);
+	pp.subscribe("my_channel", sub_ev, NULL);
 
 	pp.connect();
 

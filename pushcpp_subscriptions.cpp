@@ -3,18 +3,16 @@
 bool pushcpp::subscribe(
 	const string &channel,
 	ChannelEventHandler event,
+	void *ptr,
 	ChannelAuthHandler auth
 )
 {
 	ChannelData d = m_channelData[channel];
 
-	if (event != NULL)
-		d.eventHandlers.insert(event);
+	d.eventHandler = event;
+	d.eventHandlerPtr = ptr;
 
-	if (auth != NULL)
-		d.authHandler = auth;
-	else
-		d.authHandler = NULL;
+	d.authHandler = auth;
 
 	m_channelData[channel] = d;
 
